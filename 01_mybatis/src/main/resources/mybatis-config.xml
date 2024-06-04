@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+<!-- 
+	Content Model : 
+(properties?, settings?, typeAliases?, typeHandlers?, objectFactory?, objectWrapperFactory?, 
+ reflectorFactory?, plugins?, environments?, databaseIdProvider?, mappers?) 의 순서대로 세팅해야함
+-->
+<!-- 
+	config파일의 의미 ? 
+	DB 연결설정을 하는 파일로 쉽게 말해 Connection 객체를 생성할 때 필요한 정보를 설정한다 .
+	→ 1. environments & environment : 연결할 DB 정보를 설정하는 태그
+	→ 2. 
+-->
+	<environments default="mybatis">	<!-- default ? 기본적으로 접근할 DB에 대한 이름 -->
+		<environment id="mybatis">	<!-- id? 접속 환경에 대한 이름 -->
+			<transactionManager type="JDBC"/>	<!-- 트랜잭션 관리 방법 설정 -->
+			<!-- </transactionManager> -->
+			<dataSource type="POOLED">	
+			<!-- JDBC 접근에 사용한 내용들 type은 자료들의 임시저장소를 만들지 안만들지에 대한 내용-->
+				<!-- MyBatis가 parsing하기 위해 정해진 key(name) value임 -->
+				<property name="driver" value="oracle.jdbc.driver.OracleDriver"/>	
+				<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+				<property name="username" value="mybatis"/>
+				<property name="password" value="mybatis"/>
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<!-- SQL 정보를 제공하는 Mapper 파일 등록 -->
+	<mappers>
+		<mapper resource="/mappers/student-mapper.xml"/>
+	</mappers>
+	
+	
+</configuration>
