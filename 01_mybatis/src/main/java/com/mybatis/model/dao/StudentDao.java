@@ -57,10 +57,11 @@ public class StudentDao {
 		return session.selectOne("student.selectStudentByNo", no);
 	}
 	
+	// 학생 전체 조회
 	public List<Student> selectStudentAll(SqlSession session){
 		// selectList는 3가지의 매개변수까지 받을 수 있다.(statement, object, RowBound)
 		// → 원하는 갯수의 row만큼 가져올 수 있는 범위를 설정해줄 수 있다. 
-		// selectList의 반환형은 List<E>이다. 따라서, mapper.xml에서 해당 Elements에 대한 선언을 토대로'
+		// selectList의 반환형은 List<E>이다. 따라서, mapper.xml에서 해당 Elements에 대한 선언을 토대로
 		// 반환형을 결정해줄 수 있다.
 		return session.selectList("student.selectStudentAll");
 	}
@@ -76,6 +77,7 @@ public class StudentDao {
 		return session.selectList("student.selectAllByMap");
 	}
 	
+	// 전체 학생 조회 + 페이징 처리
 	public List<Student> selectStudentPaging(SqlSession session, Map<String, Integer> page){
 		// MyBatis가 제공하는 Paging 처리 객체를 이용하여 Paging 처리를 할 수 있다.
 		// → RowBounds 클래스의 객체 이용
