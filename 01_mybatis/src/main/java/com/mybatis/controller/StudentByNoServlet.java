@@ -32,7 +32,7 @@ public class StudentByNoServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int no = Integer.parseInt(request.getParameter("no"));
 		Student s = new StudentService().selectStudentByNo(no);
-		System.out.println(s);
+		// System.out.println(s);
 		request.setAttribute("student", s);
 		request.getRequestDispatcher("/WEB-INF/views/student.jsp").forward(request, response);
 	}

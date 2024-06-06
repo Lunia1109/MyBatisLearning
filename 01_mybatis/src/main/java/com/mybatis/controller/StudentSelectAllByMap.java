@@ -1,6 +1,8 @@
 package com.mybatis.controller;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,16 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 import com.mybatis.model.service.StudentService;
 
 /**
- * Servlet implementation class InsertStudentServlet
+ * Servlet implementation class StudentSelectAllByMap
  */
-@WebServlet("/insertstudent.do")
-public class InsertStudentServlet extends HttpServlet {
+@WebServlet("/student/studentallmap.do")
+public class StudentSelectAllByMap extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InsertStudentServlet() {
+    public StudentSelectAllByMap() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,9 +31,9 @@ public class InsertStudentServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int result = new StudentService().insertStudent();
-		// 현재 response에 대한 Encode 설정을 하지 않았기에 영어로 결과를 반환
-		response.getWriter().write(result>0?"success":"fail");
+		List<Map<String, Object>> students = new StudentService().selectAllByMap();
+		request.setAttribute("mapsStudents", students);
+		request.getRequestDispatcher("/WEB-INF/views/student.jsp").forward(request, response);
 	}
 
 	/**

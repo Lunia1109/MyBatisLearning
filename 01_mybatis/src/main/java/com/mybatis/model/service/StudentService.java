@@ -2,6 +2,7 @@ package com.mybatis.model.service;
 
 import static com.mybatis.common.SessionTemplate.getSession;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -22,11 +23,10 @@ public class StudentService {
 		session.close();
 		return result;
 	}
-	
+	// 오버로딩
 	public int insertStudent(String name) {
 		SqlSession session = getSession();
 		int result = dao.insertStudentByName(session, name);
-		// 트랜젝션 처리
 		if(result>0) session.commit();
 		else session.rollback();
 		session.close();
@@ -36,7 +36,6 @@ public class StudentService {
 	public int insertStudentByMap(Map map) {
 		SqlSession session = getSession();
 		int result = dao.insertStudentByMap(session, map);
-		// 트랜젝션 처리
 		if(result>0) session.commit();
 		else session.rollback();
 		session.close();
@@ -46,7 +45,6 @@ public class StudentService {
 	public int insertStudentAll(Student s) {
 		SqlSession session = getSession();
 		int result = dao.insertStudentAll(session, s);
-		// 트랜젝션 처리
 		if(result>0) session.commit();
 		else session.rollback();
 		session.close();
@@ -55,7 +53,6 @@ public class StudentService {
 	public int updateStudentAll(Student s) {
 		SqlSession session = getSession();
 		int result = dao.updateStudentAll(session, s);
-		// 트랜젝션 처리
 		if(result>0) session.commit();
 		else session.rollback();
 		session.close();
@@ -64,7 +61,6 @@ public class StudentService {
 	public int deleteStudentAll(Student s) {
 		SqlSession session = getSession();
 		int result = dao.deleteStudentAll(session, s);
-		// 트랜젝션 처리
 		if(result>0) session.commit();
 		else session.rollback();
 		session.close();
@@ -83,4 +79,41 @@ public class StudentService {
 		session.close();
 		return s;
 	}
+	
+	public List<Student> selectStudentAll(){
+		SqlSession session = getSession();
+		List<Student> result = dao.selectStudentAll(session);
+		session.close();
+		return result;
+	}
+	
+	public List<Student> searchStudentByName(String name){
+		SqlSession session = getSession();
+		List<Student> result = dao.searchStudentByName(session, name);
+		session.close();
+		return result;
+	}
+	// DTO 만들지 않고 Map으로 가져오기
+	public Map<String, Object> selectStudentByNameMap(int no) {
+		SqlSession session = getSession();
+		Map<String, Object> student = dao.selectStudentByNameMap(session, no);
+		session.close();
+		return student;
+	}
+	
+	public List<Map<String,Object>> selectAllByMap(){
+		SqlSession session = getSession();
+		List<Map<String,Object>> students = dao.selectAllByMap(session);
+		session.close();
+		return students;
+	}
+	
+	// 페이징 처리
+	public List<Student> selectStudentPaging(Map<String, Integer> page){
+		SqlSession session = getSession();
+		List<Student> result = dao.selectStudentPaging(session, page);
+		session.close();
+		return result;
+	}
+	
 }

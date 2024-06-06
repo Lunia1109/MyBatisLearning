@@ -12,6 +12,10 @@
 	<h2>mybatis 접속하기</h2>
 	<h3>
 		<a href="${path}/mybatistest.do">접속 테스트</a>
+		<!-- 
+			 SessionTemplate.java를 활용하여 sqlSession이 생겼는지 확인하기 위해 
+			 MybatisSessionTestServlet에서 session 호출 
+		-->
 	</h3>
 	
 	<h3>
@@ -54,7 +58,7 @@
 	
 	
 	<h3>DB에 저장된 데이터 조회하기</h3>
-	<p>SELECT문을 실행시키기 → ResultSet을 가져옴 → 자동으로 Dto로 Mapping</p>
+	<p>SELECT문을 실행시키기 → ResultSet을 가져옴 → MyBatis가 자동으로 Dto로 Mapping</p>
 	
 	<h3>학생 수 조회하기</h3>
 	<h4>
@@ -72,6 +76,38 @@
 		<input type='submit' value='조회'>
 	</form>
 	
+	
+	<h3>전체학생 조회하기</h3>
+	<h4>
+		<a href="${path }/student/studentall.do">전체학생 조회</a>
+	</h4>
+	
+	<h3>이름으로 학생조회하기(부분검색 가능)</h3>
+	<form action="${path }/student/studentbyname.do" method="post">
+		<input type='text' name='name' placeholder='학생이름'>
+		<input type='submit' value='조회'>
+	</form>
+	
+	
+	<h3>DTO를 선언하지 않고 DB정보 가져오기</h3>
+	<p>Map을 이용해서 key(Column), value(Value)로 가져올 수 있다.</p>
+	<h4>
+		<a href="${path }/student/studenbynamemap.do?no=1">
+			1번 학생 조회 by Map
+		</a>
+	</h4>
+
+	<h4>
+		<a href="${path }/student/studentallmap.do">
+			전체 학생 조회 by Map
+		</a>
+	</h4>
+	
+	
+	<h3>MyBatis에서 Paging 처리하기</h3>
+	<h4>
+		<a href="${path }/student/studentpage.do">Paging 처리</a>
+	</h4>
 	
 </body>
 </html>

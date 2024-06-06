@@ -31,7 +31,7 @@ public class InsertStydentByName extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		String name = request.getParameter("name");
-		int result = new StudentService().insertStudent(name);
+		int result = new StudentService().insertStudent(name);	// 오버로딩
 		response.getWriter().write(result>0?"success":"fail");
 	}
 
