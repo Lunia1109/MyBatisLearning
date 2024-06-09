@@ -3,4 +3,5 @@
 /src/main/resources/
 /src/main/webapp/images/
 /src/main/webapp/upload/
+build/
 .DStore
