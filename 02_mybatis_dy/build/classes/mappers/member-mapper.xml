@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN " "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="member">
+
+	<!-- 자주 사용하는 쿼리문의 요소들을 변수처럼 사용하는 방법 (29~34줄 코드 확인)-->
+	<sql id="basiccolumn">
+		userid, username, email, phone, address, hobby, enrolldate
+		<!-- 현재 basiccolumn은 SELECT 문이나 그 외 쿼리문에서 자주 사용하는 컬럼명을 담는 변수처럼 사용됨 -->
+	</sql>
+	<sql id="sort">
+		ORDER BY ${column} ${way}
+		<!-- sort라는 변수에 ORDER BY 할 기준 컬럼과 방법을 적는 일부분을 변수처럼 담아서 사용할 때 각 방식에 값을 대입하면됨 -->
+	</sql>
+	
+	<resultMap id="memberMap" type="member">
+		<id column="USERID" property="userId"/>
+		<result column="PASSWORD" property="password"/>
+		<result column="USERNAME" property="userName"/>
+		<result column="GENDER" property="gender"/>
+		<result column="AGE" property="age"/>
+		<result column="EMAIL" property="email"/>
+		<result column="PHONE" property="phone"/>
+		<result column="ADDRESS" property="address"/>
+		<result column="HOBBY" property="hobby" typeHandler="stringArr"/>
+		<result column="ENROLLDATE" property="enrollDate"/>
+	</resultMap>
+	
+	<!-- 왜 컬럼명과 필드명이 같은데 resultMap을 쓰는가? typeHandler를 사용하기 위해서 ! -->
+	<select id="searchAll" resultMap="memberMap">
+	  	SELECT <include refid="basiccolumn"/> FROM MEMBER 
+	  	<include refid="sort">
+	  		<property name="column" value="ENROLLDATE"/>
+	  		<property name="way" value="DESC"/>
+	  	</include>
+	  	<!-- SELECT userid, username, email, phone, address, hobby, enrolldate 
+	  			FROM MEMBER 
+	  			ORDER BY ENROLLDATE DESC 와 동일한 쿼리문 -->
+	</select>
+	
+	<!-- 저장 할 때(INSERT 할 때) typeHandler 사용방법 -->
+	<insert id="insertMember" parameterType="member">
+		INSERT INTO MEMBER VALUES(,,,,,#{hobby, typeHandler=stringArr},)
+		<!-- INSERT INTO MEMBER VALUES(,,,,,#{hobby },) 이라고 사용할 경우 배열을 그대로 집어넣겠다는 의미로 실행되지 않음 -->
+	</insert>
+	
+	
+</mapper>

@@ -9,10 +9,11 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.emp.model.dao.EmpDao;
 import com.emp.model.dao.EmpDaoImpl;
+import com.emp.model.dto.Department;
 import com.emp.model.dto.Employee;
 
 public class EmpServiceImpl implements EmpService {
-	
+	// 가상의 DAO 구현체 설정
 	private EmpDao dao=new EmpDaoImpl();
 	
 	@Override
@@ -35,6 +36,14 @@ public class EmpServiceImpl implements EmpService {
 		List<Employee> result = dao.searchEmp(session, param);
 		session.close();
 		return result;
+	}
+
+	@Override
+	public Department selectDeptByDeptId(String deptId) {
+		SqlSession session = getSession();
+		Department dept = dao.selectDeptById(session, deptId);
+		session.close();
+		return dept;
 	}
 	
 	

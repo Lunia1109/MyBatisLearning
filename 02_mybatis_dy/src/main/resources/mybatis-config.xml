@@ -1,23 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
-	<!-- properties 태그를 이용하여 외부 properties 파일 가져오기 -->
+	<!-- properties 태그를 이용하여 외부에 존재하는 metadata에 대한 정보를 가진 properties 파일 가져오기 -->
 	<properties resource="/driver.properties"></properties>
 	
-	<!-- settings : 다양한 속성들은 document 확인할 것 -->
-	<!-- jdbcTypeForNull ? jdbc에서 null일 경우 Oracle에서 어찌 처리할 것인가? -->
+	<!-- settings : DB connection과 관련되어 다양한 속성을 설정할 수 있다.
+	 	            다양한 속성들은 document의 mapper 탭을 확인할 것 -->
 	<settings>
+	<!-- jdbcTypeForNull ? jdbc에서 null일 경우 Oracle에서 어찌 처리할 것인가에 대한 설정
+						   * 기본적으로는 java에서의 null과 Oracle에서의 null은 다르게 처리함	 -->
 		<setting name="jdbcTypeForNull" value="NULL"/>
 	</settings>
-	
+	<!-- 
+		typeAliases ? mapper.xml에서 사용할 resultMap태그의 type에 대해 별칭을 부여해주는 기능 
+					  즉, 사용할 클래스(DTO)에 대해 별칭을 부여하는 기능을 수행한다.
+	-->
 	<typeAliases>
 		<typeAlias type="com.emp.model.dto.Employee"  alias="emp"/>
+		<typeAlias type="com.emp.model.dto.Department" alias="department"/>
+		<typeAlias type="com.web.model.dto.Member" alias="member"/>
+		<typeAlias type="com.web.model.dto.BoardComment" alias="comment"/>
+		<typeAlias type="com.web.model.dto.Board" alias="board"/>
+		<typeAlias type="com.emp.common.StringToArrayTypeHandler" alias="stringArr"/>
 	</typeAliases>
 	
 	<environments default="BS">
 		<environment id="BS">
 			<transactionManager type="JDBC"/>
 			<dataSource type="POOLED">
+			<!-- 외부에서 가져온 properties 파일에서 key값으로 해당 값을 대채해서 대입 -->
 				<property name="driver" value="${driver}"/>
 				<property name="url" value="${url}"/>
 				<property name="username" value="${user}"/>
@@ -25,17 +36,20 @@
 			</dataSource>
 		</environment>
 		<!-- 접속환경을 추가적으로 등록할 수 있다. 따라서, environments의 default 속성이 있다. -->
-		<environment id="web">
+		<environment id="web">		<!-- 해당 environment는 HelloMVC와 관련되어 연결하는 접속환경에 대한 setting -->		
 			<transactionManager type="JDBC"/>
 			<dataSource type="POOLED">
 				<property name="driver" value="${driver}"/>
 				<property name="url" value="${url}"/>
-				<property name="username" value="web"/>
-				<property name="password" value="web"/>
+				<property name="username" value="WEB"/>
+				<property name="password" value="WEB"/>
 			</dataSource>
 		</environment>
+		
 	</environments>
 	<mappers>
 		<mapper resource="/mappers/employee-mapper.xml"/>
+		<mapper resource="/mappers/member-mapper.xml"/>
+		<mapper resource="/mappers/board-mapper.xml"/>
 	</mappers>
 </configuration>

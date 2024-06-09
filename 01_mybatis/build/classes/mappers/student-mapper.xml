@@ -95,7 +95,7 @@
 	 <!-- selectList에 대한 쿼리문 -->
 	 <select id="selectStudentAll" resultMap="studentMap">
 	 <!-- 
-	 	resultMap ? 반환형에 대해 작성해줘야한다. 하지만, 현재의 쿼리문은 selectList에 대한 쿼리문으로 List가 반환형은 고정
+	 	resultMap ? 반환형에 대해 작성해줘야한다. 하지만, 현재의 쿼리문은 selectList에 대한 쿼리문으로 List가 반환형은 고정이다.
 	 				따라서, 어떠한 List인지를 결정해주는 Generic 요소에 대해서 resultType or resultMap에 작성한다.
 	 -->
 	 		SELECT * FROM STUDENT
@@ -113,7 +113,7 @@
 	 		*  ${name}으로 넣을 경우에도 실행된다.
 	 		   = 타입에 신경쓰지 않고 replace한다는 느낌으로 리터럴 표시 없이 집어 넣는다.
 	 		  	 따라서, 해당 기호는 문구 자체로 쓰고 싶을 때는 사용할 수 있다.
-	 		  	 (ex. column에 대해 변경할 경우) → 더불어 위의 문제같은 경우 '%${name}%'도 가능 	 		
+	 		  	 (ex. column에 대해 변경할 경우) → 따라서 위의 상황 같은 경우 '%${name}%'도 가능 	 		
 	 	 -->
 	</select>
 	 

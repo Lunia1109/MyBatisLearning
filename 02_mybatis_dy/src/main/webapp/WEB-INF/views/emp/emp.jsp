@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>사원조회 결과</title>
 </head>
 <body>
 	<h2>사원조회</h2>
@@ -21,6 +21,7 @@
 							<option value="emp_name">사원이름</option>
 							<option value="email">이메일</option>
 							<option value="phone">전화번호</option>
+							<option value="manager_id">매니저 아이디</option>
 						</select>
 					</td>
 					<td>
@@ -45,6 +46,26 @@
 					</td>
 				</tr>
 				<tr>
+					<td> 보너스 </td>
+					<td>
+						<input type="number" name="bonus" min="0">
+						<label><input type="radio" name="bonusFlag" value="ge"/>이상</label>
+						<label><input type="radio" name="bonusFlag" value="le"/>이하</label>
+					</td>
+				</tr>
+				<tr>
+					<td>직책</td>
+					<td>
+						<label><input type="checkbox" name="jobCode" value="J1">대표</label>
+						<label><input type="checkbox" name="jobCode" value="J2">부사장</label>
+						<label><input type="checkbox" name="jobCode" value="J3">부장</label>
+						<label><input type="checkbox" name="jobCode" value="J4">차장</label>
+						<label><input type="checkbox" name="jobCode" value="J5">과장</label>
+						<label><input type="checkbox" name="jobCode" value="J6">대리</label>
+						<label><input type="checkbox" name="jobCode" value="J7">사원</label>
+					</td>
+				</tr>
+				<tr>
 					<td colspan="2">
 						<input type="submit" value="조회">
 					</td>
@@ -52,6 +73,7 @@
 			</table>
 		</form>
 	</div>
+	
 	<table>
       <tr>
          <th>사원아이디</th>
@@ -59,7 +81,7 @@
          <th>주민번호</th>
          <th>이메일</th>
          <th>전화번호</th>
-         <th>부서코드</th>
+         <th>부서명</th>
          <th>직책코드</th>
          <th>급여레벨</th>
          <th>급여</th>
@@ -78,25 +100,27 @@
                   <td>${e.empNo }</td>
                   <td>${e.email }</td>
                   <td>${e.phone }</td>
-                  <td>${e.deptCode }</td>
+                  <td>
+                  	<ul>
+                  		<li>${e.dept.deptId }</li>
+                  		<li>${e.dept.deptTitle }</li>
+                  		<li>${e.dept.locationId }</li>
+                  	</ul>
+                  </td>
                   <td>${e.jobCode }</td>
                   <td>${e.salLevel }</td>
                   <td>
-                     <fmt:formatNumber value="${e.salary }" 
-                     type="currency"/>
+                     <fmt:formatNumber value="${e.salary }" type="currency"/>
                   </td>
                   <td>
-                     <fmt:formatNumber value="${e.bonus }"
-                     type="percent"/>
+                     <fmt:formatNumber value="${e.bonus }" type="percent"/>
                   </td>
                   <td>${e.managerId }</td>
                   <td>
-                     <fmt:formatDate value="${e.hireDate }"
-                     dateStyle="short"/>
+                     <fmt:formatDate value="${e.hireDate }" dateStyle="short"/>
                   </td>
                   <td>
-                     <fmt:formatDate value="${e.entDate }"
-                     dateStyle="full"/>
+                     <fmt:formatDate value="${e.entDate }" dateStyle="full"/>
                   </td>
                   <td>
                   	${e.gender=="M"?"남":"여"  }

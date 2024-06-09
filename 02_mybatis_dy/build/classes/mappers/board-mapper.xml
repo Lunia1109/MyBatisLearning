@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN " "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="board">
+
+	<sql id="on">
+	<!-- 쿼리문을 작성할 때 자주 사용하는 일부분을 변수처럼 사용하는 방법 -->
+		on ${param1}=${param2}
+	</sql>
+
+
+  <resultMap id="boardMap" type="board">
+  	<id column="BOARD_NO" property="boardNo"/>
+  	<result column="BOARD_TITLE" property="boardTitle"/>
+  	<!-- <result column="BOARD_WRITER" property="boardWriter"/> -->
+  	<result column="BOARD_CONTENT" property="boardContent"/>
+  	<result column="BOARD_ORIGINAL_FILENAME" property="boardOriginalFileName"/>
+  	<result column="BOARD_RENAMED_FILENAME" property="boardRenamedFileName"/>
+  	<result column="BOARD_DATE" property="boardDate"/>
+  	<result column="BOARD_READCOUNT" property="boardReadCount"/>
+  	<!-- 다른 xml 파일의 resultMap을 가져오는 방법 ? 외부의 xml의 namespace+"."+외부의 xml의 resultMap id 으로 작성 -->
+  	<!-- 
+  		즉, 현재 아래의 association은 member라는 namespace를 갖는 xml에서 memberMap이라는 id의 resultMap을 가져와서
+  		boardWriter이라는 필드에 해당 타입을 매칭시킨 것을 의미 
+  	 -->
+  	<association property="boardWriter" resultMap="member.memberMap"/>	
+  	<!-- <collection resultMap="comment" property="comments"/> -->
+  	<collection ofType="comment" property="comments">	
+  	<!-- collection 태그의 ofType ? 두 개의 resultMap으로 작성하는 것이 아니라, 하나의 resultMap에 또 다른 resultMap을 작성하는 방법 -->
+  		<id column="BOARD_COMMENT_NO" property="boardCommentNo"/>
+  		<result column="BOARD_COMMENT_LEVEL" property="boardCommentLevel"/>
+  		<result column="BOARD_COMMENT_WRITER" property="boardCommentWriter"/>
+  		<result column="BOARD_COMMENT_CONTENT" property="boardCommentContent"/>
+  		<result column="BOARD_REF" property="boardRef"/>
+  		<result column="BOARD_COMMENT_REF" property="boardCommentRef"/>
+  		<result column="BOARD_COMMENT_DATE" property="boardCommentDate"/>
+  	</collection>
+  </resultMap>
+<!--
+   <resultMap id="comment" type="comment">
+  	<id column="BOARD_COMMENT_NO" property="boardCommentNo"/>
+  	<result column="BOARD_COMMENT_LEVEL" property="boardCommentLevel"/>
+  	<result column="BOARD_COMMENT_WRITER" property="boardCommentWriter"/>
+  	<result column="BOARD_COMMENT_CONTENT" property="boardCommentContent"/>
+  	<result column="BOARD_REF" property="boardRef"/>
+  	<result column="BOARD_COMMENT_REF" property="boardCommentRef"/>
+  	<result column="BOARD_COMMENT_DATE" property="boardCommentDate"/>
+  </resultMap> 
+-->
+  
+  <select id="searchAllBoard" resultMap="boardMap">
+  	SELECT * 
+  		FROM BOARD 
+  			LEFT JOIN BOARD_COMMENT ON BOARD_NO = BOARD_REF 
+  			JOIN MEMBER <!-- ON USERID=BOARD_WRITER  -->
+  	<include refid="on">
+  	<!-- 
+	  	자주 사용하는 쿼리문에 대해서 뭉쳐놓고 모듈화 한다면 사용할 수 있다. 추후 모듈의 기능을 업데이트 할 일이 생긴다면 
+	  	위에서 선언한 <sql id="on"> 태그만 업데이트하면 된다. cf) "on"은 예약어가 아니다!
+  	-->
+  		<property name="param1" value="USERID"/>
+  		<property name="param2" value="BOARD_WRITER"/>
+  	</include>
+  	
+  	ORDER BY BOARD_DATE DESC
+  </select>
+  
+  
+</mapper>
